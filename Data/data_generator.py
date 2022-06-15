@@ -9,7 +9,7 @@ class DataGenerator(Sequence):
     """
     Data generator for cats image data set. This generator can be used for train, test or val set (each set should be
     in separate folder). The structure of the folder representing the data should be as follows - the images need to
-    be in subfolder "images" and annotations should be provided in file "annotations.csv", where each row is represented
+    be in subfolder "images" and annotations should be provided in file "labels.csv", where each row is represented
     by the name of the image and x and y coordinate of each of 9 key points
     """
     def __init__(self, data_path, batch_size, shuffle):
@@ -19,7 +19,7 @@ class DataGenerator(Sequence):
         :param shuffle: boolean, whether data is shuffled after the each epoch
         """
         self.data_path = data_path
-        self.df = pd.read_csv(data_path + "/annotations.csv").values
+        self.df = pd.read_csv(data_path + "/labels.csv").values
         # Shuffle the data for first epoch if we are shuffling
         if shuffle:
             np.random.shuffle(self.df)
@@ -30,9 +30,9 @@ class DataGenerator(Sequence):
         batch = self.df[self.batch_size*index:self.batch_size*(index+1), :]
 
         # The filenames are stored in the first column of the data
-        X = np.asarray([self.load_image(filename) for filename in batch[:, 0]])
+        X = np.asarray([self.load_image(filename) for filename in batch[:, 0]], dtype="uint8")
         # The remaining columns represent data outputs
-        y = batch[:, 1:]
+        y = batch[:, 1:].astype("int32")
 
         return X, y
 
