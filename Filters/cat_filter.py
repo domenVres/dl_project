@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import cv2
-
 
 # TODO: Change this to the path to the project on your hard drive
 PROJECT_PATH = "D:/faks/Deep learning/Project/dl_project"
